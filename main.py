@@ -47,7 +47,7 @@ async def read_top_secret(request : Request):
     authorization_headers = request.headers.get("Authorization")
 
     if not authorization_headers or authorization_headers != "my-secret-key":
-        return JSONResponse({"Incorret key" : authorization_headers} ,status_code=403)
+        return JSONResponse({"Incorrect key" : authorization_headers} ,status_code=403)
 
     body = await request.json()
     secret_code = body.get("secret_code")
