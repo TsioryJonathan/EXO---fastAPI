@@ -42,6 +42,22 @@ def read_hello_custom(request: Request, name: Optional[str] = None, is_teacher: 
     else:
         return "Hello " + name + " !"
 
+@app.put("/top-secret")
+async def read_top_secret(request : Request):
+    authorization_headers = request.headers.get("Authorization")
 
+    if not authorization_headers or authorization_headers != "my-secret-key":
+        return JSONResponse({"Incorret key" : authorization_headers} ,status_code=403)
+
+    body = await request.json()
+    secret_code = body.get("secret_code")
+
+    if not secret_code or len(secret_code) != 4:
+        return JSONResponse({"Incorrect secret code" : "Must be 4 digits"} ,status_code=400)
+
+    return JSONResponse(
+        content={"message": "Welcome to the top secret area !"},
+        status_code=200
+    )
 
 
