@@ -2,6 +2,8 @@ from fastapi import FastAPI, requests
 from pydantic import BaseModel
 from starlette.requests import Request
 from starlette.responses import JSONResponse
+from starlette.responses import RedirectResponse
+from typing import Optional
 
 app = FastAPI()
 
@@ -13,10 +15,11 @@ def read_hello(request: Request):
         return JSONResponse({"message": "Unsupported Media Type"}, status_code=400)
     return JSONResponse(content="Hello world", status_code=200)
 
-
 class WelcomeRequest(BaseModel):
     name: str
 
 @app.post("/welcome")
 def welcome_user(request: WelcomeRequest):
     return {f"Bienvenue {request.name}"}
+
+
